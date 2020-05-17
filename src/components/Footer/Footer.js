@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
       flexDirection: 'column',
-      minHeight: '100vh',
+      minHeight: '89vh',
     },
     footer: {
       padding: theme.spacing(2, 1),
@@ -28,7 +28,7 @@ export default function Footer(){
     <div className={classes.root}>
         <CssBaseline />
         <footer className={classes.footer}>
-            <Container maxWidth="md">
+            <Container maxWidth="sm">
                 <Typography variant="body1" className={classes.message}>
                     Stay safe !!! Stay Healthy !!! Beat the virus !!!
                 </Typography>
