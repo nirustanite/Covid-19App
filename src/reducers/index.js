@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import worldTotal from './worldTotal'
+import worldTotal from './worldTotal';
+import countries from './countries';
 
 export default combineReducers({
-  worldTotal
+  worldTotal,
+  countries
 })
