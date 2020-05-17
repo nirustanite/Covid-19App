@@ -1,12 +1,28 @@
 import React from 'react';
+import './WorldTotal.css';
+import CountUp from 'react-countup';
+import { Container, Row, Col } from 'react-grid-system';
 
 export default function WorldTotal(props){
-   console.log("props", props.total.TotalConfirmed);
+   console.log("props", props.total);
    return(
        <React.Fragment>
-       <div className="container">
-            {props.total && <p>{props.total.TotalConfirmed}</p>}
-        </div>
+       {props.total.TotalConfirmed && <Container>
+           <Row className="row">
+               <Col sm={4}>
+                    <h1 className="col-1-h1">Total Confirmed</h1>
+                   <CountUp start={0} end={props.total.TotalConfirmed} duration={2.75} className="counter1"/>
+                </Col>
+               <Col sm={4}>
+                    <h1 className="col-2-h1">Total Deaths</h1>
+                    <CountUp start={0} end={props.total.TotalDeaths} duration={2.75} className="counter2" />
+               </Col>
+               <Col sm={4}>
+                    <h1 className="col-3-h1">Total Recovered</h1>
+                    <CountUp start={0} end={props.total.TotalRecovered} duration={2.75} className="counter3" />
+               </Col>
+           </Row>
+       </Container>}
        </React.Fragment>
    )
 }
