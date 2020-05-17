@@ -4,28 +4,24 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+
 const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '89vh',
-    },
-    footer: {
-      padding: theme.spacing(2, 1),
-      marginTop: 'auto',
-      backgroundColor: "black",   
-    },
     message: {
         color: "white",
         textAlign: "center"
-    }
+    },
+    footer: {
+        backgroundColor: "black",
+        padding: theme.spacing(6),
+        marginTop: 'auto',
+    },
 }));
 
 
 export default function Footer(){
     const classes = useStyles();
     return(
-    <div className={classes.root}>
+        <React.Fragment>
         <CssBaseline />
         <footer className={classes.footer}>
             <Container maxWidth="sm">
@@ -34,6 +30,6 @@ export default function Footer(){
                 </Typography>
             </Container>
         </footer>
-    </div>
+        </React.Fragment>
     )
 }

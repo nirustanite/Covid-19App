@@ -7,7 +7,7 @@ export default function WorldTotal(props){
    console.log("props", props.total);
    return(
        <React.Fragment>
-       {props.total.TotalConfirmed && <Container>
+       {props.total.TotalConfirmed && <Container className="gridcontainer">
            <Row className="row">
                <Col sm={4}>
                     <h1 className="col-1-h1">Total Confirmed</h1>

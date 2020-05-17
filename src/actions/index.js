@@ -1,2 +1,3 @@
-export { worldTotalFetch } from './worldTotal';
-export { worldTotal } from './worldTotal';
+export { worldTotalFetch, worldTotal } from './worldTotal';
+
+export {countriesFetch,countries} from './country';

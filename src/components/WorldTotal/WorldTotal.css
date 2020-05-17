@@ -1,11 +1,9 @@
-.container{
-   margin-left: 40px;
-   margin-top: 50px;
+.gridcontainer{
+    width: 100%;
 }
 
 .row{
     text-align: center;
-    justify-content: center;
 }
 
 .col-1-h1{
