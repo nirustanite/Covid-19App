@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import { Header, Footer, WorldTotalContainer } from './components/index';
 
 export default class App extends Component{
     render(){
         return(
             <React.Fragment>
-                <h1>Welcome To COVID -19</h1>
+             
+               <Header /> 
+                  <WorldTotalContainer />
+               <Footer />
+               
             </React.Fragment>
         )
     }
