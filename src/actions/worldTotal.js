@@ -5,7 +5,6 @@ export const worldTotalFetch = () => ({
 })
 
 export const worldTotal = data => {
-    console.log("response data", data)
     return{
         type: actionTypes.WORLD_TOTAL,
         data
