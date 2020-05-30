@@ -4,7 +4,6 @@ import CountUp from 'react-countup';
 import { Container, Row, Col } from 'react-grid-system';
 
 export default function WorldTotal(props){
-   console.log("props", props.total);
    return(
        <React.Fragment>
        {props.total.TotalConfirmed && <Container className="gridcontainer">

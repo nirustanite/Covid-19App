@@ -6,7 +6,6 @@ import {baseUrl} from '../constants';
 export function* getWorldTotal(action){
     try{
         const response  = yield request.get(`${baseUrl}/world/total`);
-        console.log(response.body)
         yield put(actions.worldTotal(response.body))
     }
     catch(error){

@@ -1,0 +1,4 @@
+.react-hooks-paginator .page-item.active .page-link{
+    background-color: black !important;
+    border-color: black !important
+}
