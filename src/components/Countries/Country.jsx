@@ -1,4 +1,5 @@
-import React,{useState, useEffect} from 'react';
+import React,{ useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Paginator from 'react-hooks-paginator';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -10,7 +11,6 @@ import Avatar from '@material-ui/core/Avatar';
 import './Country.css';
 
 const useStyles = makeStyles((theme) => ({
-
     cardGrid: {
       paddingTop: theme.spacing(9),
       paddingBottom: theme.spacing(10),
@@ -19,11 +19,6 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'row',
-        boxShadow: '2px 16px 48px',
-        '&:hover':{
-            backgroundColor: '#D3D3D3',
-            cursor: 'pointer'
-        },
         border: '3px solid black',
         borderRadius:'10px',
         backgroundColor: 'white'
@@ -42,11 +37,14 @@ const useStyles = makeStyles((theme) => ({
     text:{
         fontWeight: 'bold'
     }
-  }));
+}));
 
 
 
-export default function Country(props){
+const Country = () => {
+    const countryData = useSelector(state => state.countries);
+    const countrieslist = countryData.countries;
+
     const classes = useStyles();
     const pageLimit = 9;
     const [offset, setOffset] = useState(0);
@@ -54,9 +52,9 @@ export default function Country(props){
     const [currentData, setCurrentData] = useState([]);
 
     useEffect(() => {
-        if(!props.countrieslist) return 
-            setCurrentData(props.countrieslist.slice(offset, offset + pageLimit));
-    }, [offset, props.countrieslist]);
+        if(!countrieslist) return 
+            setCurrentData(countrieslist.slice(offset, offset + pageLimit));
+    }, [offset, countrieslist]);
 
 
     return(
@@ -66,9 +64,9 @@ export default function Country(props){
             <Grid container spacing={4}>
                 {currentData.map((country,i) => (
                     <Grid item key={i} xs={8} sm={6} md={4}>
-                    <Card className={classes.card}  boxShadow={1}>
+                    <Card className={classes.card} >
                         <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="subtitle2" component="subtitle2" className={classes.text}>
+                            <Typography gutterBottom variant="subtitle2" className={classes.text}>
                                 {country.Country}
                             </Typography>
                             <Typography className={classes.text}>
@@ -82,8 +80,8 @@ export default function Country(props){
             </Grid>
             </Container>
           <div>
-           {props.countrieslist && <Paginator
-           totalRecords={props.countrieslist.length}
+           {countrieslist && <Paginator
+           totalRecords={countrieslist.length}
            pageLimit={pageLimit}
            pageNeighbours={1}
            setOffset={setOffset}
@@ -94,3 +92,5 @@ export default function Country(props){
         </React.Fragment>
     )
 }
+
+export default Country;
