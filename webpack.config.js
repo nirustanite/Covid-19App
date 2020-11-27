@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require("path");
 
 module.exports = {
@@ -14,7 +15,9 @@ module.exports = {
         Components: path.resolve(__dirname, "./src/components/"),
         Store: path.resolve(__dirname, "./src/redux/"),
         Pages: path.resolve(__dirname, "./src/pages/"),
-        Util: path.resolve(__dirname, "./src/util/")
+        Util: path.resolve(__dirname, "./src/util/"),
+        '../../theme.config': path.join(__dirname, '/src/semantic-ui/theme.config'),
+        "../semantic-ui/site": path.join(__dirname, "/src/semantic-ui/site")
     }
   },
   module: {
@@ -46,12 +49,30 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
-    ]
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          'less-loader',
+        ],
+      },
+      {
+        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+        use: 'url-loader',
+      }
+    ],
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
-    })
+    }),
+
+    new MiniCssExtractPlugin({
+      filename: 'styles/[name].[contenthash].css',
+    }),
   ]
 };
