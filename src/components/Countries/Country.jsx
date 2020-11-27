@@ -12,8 +12,8 @@ import './Country.css';
 
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
-      paddingTop: theme.spacing(9),
-      paddingBottom: theme.spacing(10),
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
     },
     card: {
         height: '100%',
@@ -63,9 +63,9 @@ const Country = () => {
             <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
                 {currentData.map((country,i) => (
-                    <Grid item key={i} xs={8} sm={6} md={4}>
-                    <Card className={classes.card} >
-                        <CardContent className={classes.cardContent}>
+                    <Grid item key={i} xs={12} sm={6} md={4}>
+                    <Card className={classes.card} onClick={() => props.handleClick(country.ISO2)}>
+                        <CardContent className={classes.cardContent} >
                             <Typography gutterBottom variant="subtitle2" className={classes.text}>
                                 {country.Country}
                             </Typography>
