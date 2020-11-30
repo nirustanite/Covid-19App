@@ -1,9 +1,34 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import './WorldTotal.css';
 import CountUp from 'react-countup';
-import { Container, Row, Col } from 'react-grid-system';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
+import styled from 'styled-components';
+
+const StyledGrid = styled(Grid)`
+    text-align: center;
+`;
+
+const TotalConfirmedHeader = styled(Header)`
+    color: red;
+`;
+
+const ConfirmCount = styled(CountUp)`
+    font-size: 2em; 
+    color: red;
+`;
+
+const DeathCount = styled(CountUp)`
+    font-size: 2em; 
+`;
+
+const TotalRecoveredHeader = styled(Header)`
+    color: green;
+`;
+
+const RecoveredCount = styled(CountUp)`
+    font-size: 2em; 
+    color: green;
+`;
 
 const WorldTotal = () => {
     const worldTotalData = useSelector(state => state.worldTotal);
@@ -11,43 +36,25 @@ const WorldTotal = () => {
 
    return(
        <React.Fragment>
-       {/* {worldTotal.TotalConfirmed ? <Container className="gridcontainer">
-           <Row className="row">
-               <Col sm={4}>
-                    <h1 className="col-1-h1">Total Confirmed</h1>
-                   <CountUp start={0} end={worldTotal.TotalConfirmed} duration={2.75} className="counter1"/>
-                </Col>
-               <Col sm={4}>
-                    <h1 className="col-2-h1">Total Deaths</h1>
-                    <CountUp start={0} end={worldTotal.TotalDeaths} duration={2.75} className="counter2" />
-               </Col>
-               <Col sm={4}>
-                    <h1 className="col-3-h1">Total Recovered</h1>
-                    <CountUp start={0} end={worldTotal.TotalRecovered} duration={2.75} className="counter3" />
-               </Col>
-           </Row>
-        </Container> : <h5>Loading ...</h5>} */}
         {worldTotal.TotalConfirmed ?  (
-            <Grid stackable>
-                <Grid.Row columns={3}>
-                    <Grid.Column>
-                        <Header as="h1">Total Confirmed</Header>
-                        <CountUp start={0} end={worldTotal.TotalConfirmed} duration={2.75} />
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Header as="h1">Total Deaths</Header>
-                        <CountUp start={0} end={worldTotal.TotalDeaths} duration={2.75} />
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Header as="h1">Total Recovered</Header>
-                        <CountUp start={0} end={worldTotal.TotalRecovered} duration={2.75} />
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
+            <StyledGrid stackable columns={3}>
+                <Grid.Column>
+                    <TotalConfirmedHeader as="h1">Total Confirmed</TotalConfirmedHeader>
+                    <ConfirmCount start={0} end={worldTotal.TotalConfirmed} duration={2.75} />
+                </Grid.Column>
+                <Grid.Column>
+                    <Header as="h1">Total Deaths</Header>
+                    <DeathCount start={0} end={worldTotal.TotalDeaths} duration={2.75} />
+                </Grid.Column>
+                <Grid.Column>
+                    <TotalRecoveredHeader as="h1">Total Recovered</TotalRecoveredHeader>
+                    <RecoveredCount start={0} end={worldTotal.TotalRecovered} duration={2.75} />
+                </Grid.Column>
+            </StyledGrid>
         ) : (
-            <Segment>
+            <p>
                 Loading ...
-            </Segment>
+            </p>
         )}
        </React.Fragment>
    )

@@ -46,7 +46,7 @@ export function* saga(){
 }
  
 
-export function* getCountries(action){
+export function* getCountries(){
     try{
         const response  = yield call(callCountries)
         yield put(actions.countries(response.body))
@@ -58,5 +58,5 @@ export function* getCountries(action){
  
 
 function callCountries(){
-     return request.get(`${baseUrl}/countries`);
+     return request.get(`${baseUrl}/summary`);
 }

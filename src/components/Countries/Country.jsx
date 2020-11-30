@@ -1,94 +1,157 @@
 import React,{ useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Table, Segment, Input, Icon} from 'semantic-ui-react';
+import styled from 'styled-components';
+import _ from 'lodash';
 import Paginator from 'react-hooks-paginator';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
+
 import './Country.css';
 
-const useStyles = makeStyles((theme) => ({
-    cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
-    },
-    card: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        border: '3px solid black',
-        borderRadius:'10px',
-        backgroundColor: 'white'
-    },
-    
-    details: {
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    cardContent: {
-        flexGrow: 1,
-    },
-    media:{
-      backgroundColor: '#D3D3D3'
-    },
-    text:{
-        fontWeight: 'bold'
-    }
-}));
+const StyledSegment = styled(Segment)`
+    padding-top: 30px;
+`;
 
-
+const StyledTable = styled(Table)`
+    padding-top: 30px;
+`
 
 const Country = () => {
-    const countryData = useSelector(state => state.countries);
-    const countrieslist = countryData.countries;
 
-    const classes = useStyles();
+    const countryData = useSelector(state => state.countries.countries);
+
+    const countriesList = countryData.Countries;
+   
     const pageLimit = 9;
     const [offset, setOffset] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentData, setCurrentData] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
+    
+    let totalRecords = null;
+
+    if(countriesList){
+        totalRecords = countriesList.length;
+    }
 
     useEffect(() => {
-        if(!countrieslist) return 
-            setCurrentData(countrieslist.slice(offset, offset + pageLimit));
-    }, [offset, countrieslist]);
+        if(!countriesList) return 
+            setCurrentData(countriesList.slice(offset, offset + pageLimit));
+    }, [offset, countriesList]);
 
+    const formatNumber = (number) => {
+        return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+
+    const onChange = (value) => {
+        if (searchValue !== "") {
+            let countryArray = countriesList && countriesList.filter((res) =>
+                res.Country.toLowerCase().includes(value.toLowerCase())
+            )
+            setCurrentData(countryArray);
+            totalRecords = countryArray.length;
+           
+        }
+        else{
+            totalRecords = countriesList.length;
+        }
+    }
+
+    const updateSearchText = (e) => {
+        setSearchValue(e.target.value);
+        onChange(e.target.value);
+    };
 
     return(
         <React.Fragment>
-            <hr />
-            <Container className={classes.cardGrid} maxWidth="md">
-            <Grid container spacing={4}>
-                {currentData.map((country,i) => (
-                    <Grid item key={i} xs={12} sm={6} md={4}>
-                    <Card className={classes.card} onClick={() => props.handleClick(country.ISO2)}>
-                        <CardContent className={classes.cardContent} >
-                            <Typography gutterBottom variant="subtitle2" className={classes.text}>
-                                {country.Country}
-                            </Typography>
-                            <Typography className={classes.text}>
-                                {country.ISO2}
-                            </Typography>
-                        </CardContent>
-                        <Avatar alt="flag" src={`https://www.countryflags.io/${country.ISO2}/flat/64.png`} variant="square" className={classes.media}/> 
-                    </Card>
-                    </Grid>
-                ))}
-            </Grid>
-            </Container>
-          <div>
-           {countrieslist && <Paginator
-           totalRecords={countrieslist.length}
-           pageLimit={pageLimit}
-           pageNeighbours={1}
-           setOffset={setOffset}
-           currentPage={currentPage}
-           setCurrentPage={setCurrentPage}
-           />}
-           </div>
+           <StyledSegment padded="very">
+            <Input icon placeholder='Search...'>
+                <input
+                     type="text"
+                     placeholder="Enter country name"
+                     name="searchCountry"
+                     onChange={updateSearchText}
+                     value={searchValue}
+                 />
+                <Icon name='search' />
+            </Input>
+            <StyledTable basic="very" stackable>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Countries</Table.HeaderCell>
+                            <Table.HeaderCell>New Confirmed</Table.HeaderCell>
+                            <Table.HeaderCell>New Deaths</Table.HeaderCell>
+                            <Table.HeaderCell>New Recovered</Table.HeaderCell>
+                            <Table.HeaderCell>Total Confirmed</Table.HeaderCell>
+                            <Table.HeaderCell>Total Deaths</Table.HeaderCell>
+                            <Table.HeaderCell>Total Recovered</Table.HeaderCell>
+                            <Table.HeaderCell></Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {countryData.Global &&
+                            <Table.Row>
+                                <Table.Cell>
+                                    Global
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(countryData.Global.NewConfirmed)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(countryData.Global.NewDeaths)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(countryData.Global.NewRecovered)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(countryData.Global.TotalConfirmed)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(countryData.Global.TotalDeaths)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(countryData.Global.TotalRecovered)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    
+                                </Table.Cell>
+                        </Table.Row>}
+                        { currentData && currentData.map((country,i) => {
+                            return <Table.Row key={i}>
+                                <Table.Cell>
+                                    {country.Country}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(country.NewConfirmed)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(country.NewDeaths)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(country.NewRecovered)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(country.TotalConfirmed)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(country.TotalDeaths)}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {formatNumber(country.TotalRecovered)}
+                                </Table.Cell>
+                            </Table.Row>
+                        })}
+                    </Table.Body>
+                </StyledTable>
+                {countriesList && <Paginator
+                    totalRecords={totalRecords}
+                    pageLimit={pageLimit}
+                    pageNeighbours={1}
+                    setOffset={setOffset}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />}
+           </StyledSegment>
+           
         </React.Fragment>
     )
 }
